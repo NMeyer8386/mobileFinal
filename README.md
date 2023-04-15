@@ -19,4 +19,10 @@ input will have a green border. Once both inputs have text, the save button will
 
 <img src='/assets/IMG_2679.PNG' width='30%' height='30%' alt='One Input'/>  <img src='/assets/IMG_2680.PNG' width='30%' height='30%' alt='Two Inputs'/>  
 
+Upon saving, the entry will be displayed below and tell you the number of bugs you have found.  
+
+<img src='/assets/IMG_2681.PNG' width='30%' height='30%' alt='One Entry'/>  <img src='/assets/IMG_2682.PNG' width='30%' height='30%' alt='Two Entries'/>  
+
+If you would like to delete a bug (which you definitely won't need to do because Star Citizen Bugs are forever), all you have to do is hold the entry.  
+
 *Disclaimer: This application does not actually report bugs to CIG or RSI.*
