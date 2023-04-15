@@ -3,7 +3,7 @@
 Star Citizen is a game that is well-known for having copious amounts of bugs, so
 I created this application to allow players to track any bugs they encounter!
 
-To install this app with expo, just run 'git clone \https://github.com/NMeyer8386/mobileFinal.git' in the director you'd like to save the project in.   
+To install this app with expo, just run 'git clone https://github.com/NMeyer8386/mobileFinal.git' in the director you'd like to save the project in.   
 After the repository is cloned sucessfully, cd into the project directory and run 'npm install'. That will install all
 needed dependencies for the project.
 
