@@ -38,7 +38,6 @@ class Items extends Component {
      */
     setItems = (items) => {
         this.setState({ items: items });
-        console.log(items);
     }
 
     /**
@@ -63,6 +62,7 @@ class Items extends Component {
         this.props.db.transaction((tx) => {
             tx.executeSql(
                 'select * from bugs',
+                [],
                 (_, { rows: { _array } }) => this.setItems(_array)
             );
         })
@@ -88,15 +88,15 @@ class Items extends Component {
         return (
             <View style={styles.sectionContainer}>
                 <Text style={styles.sectionHeading}>Found Bugs:</Text>
-                {this.state.items.map(({ id, bug, rep, date }) => (
+                {this.state.items.map(({ id, bug_type, replicate_steps, created_at }) => (
                     <Pressable
                         key={id}
-                        onLongPress={() => this.props.onPress(id)}
+                        onPress={() => this.props.onPress(id)}
                         style={styles.bugBox}
                     >
-                        <Text>Found: {date}</Text>
-                        <Text>Type: {bug}</Text>
-                        <Text>How to replicate: {rep}</Text>
+                        <Text>Found: {created_at}</Text>
+                        <Text>Type: {bug_type}</Text>
+                        <Text>How to replicate: {replicate_steps}</Text>
                     </Pressable>
 
                 ))}

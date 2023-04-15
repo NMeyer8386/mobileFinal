@@ -101,7 +101,7 @@ export default class App extends Component {
         );
       },
       (err) => console.log(err),
-      this.bugs.update
+      this.bugs.update()
     )
   }
 
@@ -147,6 +147,7 @@ export default class App extends Component {
               this.dbAdd(this.state.bugText, this.state.replicationText, this.state.date);
               this.textInput1.clear();
               this.textInput2.clear();
+              this.bugs.update();
             }}
 
           >
@@ -166,11 +167,12 @@ export default class App extends Component {
                   tx.executeSql(
                     "delete from bugs where id = ?",
                     [id]
-                  )
+                  );
                 },
-                (err) => console.log(err),
-                this.update
+                (err) => console.log(err), 
               )
+              this.bugs.update();
+              console.log('deleted');
             }
             }
           />
