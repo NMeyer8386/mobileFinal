@@ -80,7 +80,7 @@ class Items extends Component {
         if (this.state.items === null || this.state.items.length === 0) {
             return (
                 <View style={styles.sectionContainer}>
-                <Text style={styles.sectionHeading}>No Bugs!</Text>
+                <Text style={styles.sectionHeading}>No Bugs? How is that possible??</Text>
             </View>
             );
         }
@@ -94,9 +94,9 @@ class Items extends Component {
                         onLongPress={() => this.props.onPress(id)}
                         style={styles.bugBox}
                     >
-                        <Text>Found: {created_at}</Text>
-                        <Text>Type: {bug_type}</Text>
-                        <Text>How to replicate: {replicate_steps}</Text>
+                        <Text style={styles.bugTitle}>Type: {bug_type}</Text>
+                        <Text style={styles.bugDate}>Found: {created_at}</Text>
+                        <Text style={styles.bugBody}>How to replicate: {replicate_steps}</Text>
                     </Pressable>
 
                 ))}
@@ -113,10 +113,29 @@ const styles = StyleSheet.create({
     },
     sectionHeading: {
         fontSize: 18,
-        marginBottom: 8,
+        margin: 10,
     },
     bugBox: {
-        borderColor: 'red',
+        backgroundColor: 'lightgray',
+        borderColor: 'black',
         borderWidth: 1,
+        borderRadius: 10,
+        margin: 10,
+    },
+    bugTitle: {
+        paddingHorizontal: 20,
+        paddingTop: 20,
+    },    
+    bugDate: {
+        paddingTop: 5,
+        paddingHorizontal: 20,
+        fontSize: 10,
+        color: '#f54747',
+    },
+    bugBody: {
+        padding: 20,
+    },
+    flexRow: {
+        flexDirection: 'row',
     },
 });

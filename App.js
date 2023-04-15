@@ -104,6 +104,10 @@ export default class App extends Component {
       (err) => console.log(err),
       this.bugs.update()
     )
+    this.setState({
+      bugText: null,
+      replicationText: null,
+    });
   }
 
   render() {
@@ -131,7 +135,7 @@ export default class App extends Component {
             ref={bugInput => { this.textInput1 = bugInput }}
             onChangeText={text => this.setBugText(text)}
             placeholder="Where was the bug? (Ship, FPS, Terminal, etc.)"
-            style={styles.input}
+            style={[styles.input, this.state.bugText? {borderColor: 'green'}:{borderColor: 'red'}]}
             value={this.state.bugText}
           />
 
@@ -140,14 +144,14 @@ export default class App extends Component {
             multiline={true}
             onChangeText={text => this.setReplicationText(text)}
             placeholder="Steps to replicate:"
-            style={[styles.input, {flex: 3,}]}
+            style={[styles.input, this.state.replicationText? {borderColor: 'green'}:{borderColor: 'red'}, {flex: 3,}]}
             value={this.state.replicationText}
           />
         </View>
 
           <TouchableOpacity
             disabled={this.state.bugText && this.state.replicationText? false : true }
-            style={[styles.submitButton, this.state.bugText && this.state.replicationText? {backgroundColor: 'limegreen'} : {backgroundColor: 'red'} ]}
+            style={[styles.submitButton, this.state.bugText && this.state.replicationText? {backgroundColor: 'limegreen'} : {backgroundColor: 'lightgray'} ]}
             onPress={() => {
               this.dbAdd(this.state.bugText, this.state.replicationText, this.state.date);
               this.textInput1.clear();
@@ -156,7 +160,7 @@ export default class App extends Component {
             }}
 
           >
-            <Text>Balls</Text>
+            <Text>{this.state.bugText && this.state.replicationText? 'Save' : 'Enter bug info' }</Text>
           </TouchableOpacity>
 
         
@@ -190,7 +194,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#E8e8e8',
     alignItems: 'center',
     justifyContent: 'flex-start',
     borderColor: 'black',
@@ -198,6 +202,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
+    backgroundColor: '#fff',
     width: '100%',
     height: '12%',
     paddingTop: 35,
@@ -222,7 +227,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    borderColor: 'green',
+    backgroundColor: '#fff',
     borderRadius: 4,
     borderWidth: 1,
     height: 48,
@@ -253,6 +258,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   listArea: {
-
+    paddingTop: 40,
+    width: '100%',
   },
 });
