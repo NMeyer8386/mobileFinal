@@ -91,7 +91,7 @@ class Items extends Component {
                 {this.state.items.map(({ id, bug_type, replicate_steps, created_at }) => (
                     <Pressable
                         key={id}
-                        onPress={() => this.props.onPress(id)}
+                        onLongPress={() => this.props.onPress(id)}
                         style={styles.bugBox}
                     >
                         <Text>Found: {created_at}</Text>
