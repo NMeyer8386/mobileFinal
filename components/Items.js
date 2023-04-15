@@ -27,6 +27,7 @@ class Items extends Component {
         super(props);
         this.state = {
             items: null,
+            itemsLength: null,
         }
     }
 
@@ -37,7 +38,11 @@ class Items extends Component {
      * @param {array} items
      */
     setItems = (items) => {
-        this.setState({ items: items });
+        let itemslength = Object.keys(items).length;
+        this.setState({ 
+            items: items,
+            itemsLength: itemslength,
+        });
     }
 
     /**
@@ -87,7 +92,7 @@ class Items extends Component {
 
         return (
             <View style={styles.sectionContainer}>
-                <Text style={styles.sectionHeading}>Found Bugs:</Text>
+                <Text style={styles.sectionHeading}>Found Bugs: {this.state.itemsLength}</Text>
                 {this.state.items.map(({ id, bug_type, replicate_steps, created_at }) => (
                     <Pressable
                         key={id}
