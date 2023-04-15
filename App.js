@@ -8,14 +8,18 @@ import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   Image,
+  Keyboard,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
+import Items from './components/Items';
 
 /**
  * This detects the platform that the app is running on. Since web isn't compatible with SQLite,
@@ -36,6 +40,8 @@ function openDatabase() {
   return db;
 }
 
+const db = openDatabase(); // Creates the database
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -44,18 +50,66 @@ export default class App extends Component {
       let month = date.getMonth();
       let day = date.getDate();
       this.state = {
-        text: null,
+        bugText: null,
+        replicationText: null,
         date: (year.toString() + '/' + 
               (month + 1).toString() + '/' + 
               (day).toString()),
       }
   }
 
+  // Creates the database on component mount if it doesn't exist already
+  componentDidMount() {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          "create table if not exists bugs (id integer primary key not null, bug_type text, replicate_steps text, created_at text);",
+          [],
+          null,
+          (err) => console.log(err)
+        )
+      },
+      (err) => console.log(err)
+    );
+  }
+
+  // Sets user text from respective inputs to state variables for db input
+  setBugText = (text) => {
+    this.setState({ bugText: text });
+  }
+
+  setReplicationText = (text) => {
+    this.setState({ replicationText: text });
+  }
+
+  // Inserts user-inputted text and the date into the db
+  dbAdd = (bug, rep, date) => {
+    if (bug === null || bug === '' || rep === null || rep === '') {
+      return false;
+    }
+
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          "insert into bugs (bug_type, replicate_steps, created_at) values (?, ?, ?)",
+          [bug, rep, date]
+        );
+        tx.executeSql(
+          "select * from bugs",
+          [],
+          (_, { rows }) => console.log(JSON.stringify(rows))
+        );
+      },
+      (err) => console.log(err),
+      this.bugs.update
+    )
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <Pressable style={styles.container} onPress={Keyboard.dismiss}>
         <StatusBar style="auto" />
-        
+
         {/* The app's header */}
         <View style={styles.header}>
           <Image
@@ -66,12 +120,62 @@ export default class App extends Component {
           <Text style={styles.headerText}>Star Citizen Bug Tracker</Text>
         </View>
 
-        {/* This is where bugs will be displayed */}
-        <View style={styles.content}>
-          <Text>{this.state.date}</Text>
+        {/* This is where a user will insert a bug report */}
+        <View style={styles.bugInput}>
+          <TextInput
+            ref={bugInput => { this.textInput1 = bugInput }}
+            onChangeText={text => this.setBugText(text)}
+            placeholder="Where was the bug? (Ship, FPS, Terminal, etc.)"
+            style={styles.input}
+            value={this.state.bugText}
+          />
 
+          <TextInput
+            ref={repInput => { this.textInput2 = repInput }}
+            multiline={true}
+            onChangeText={text => this.setReplicationText(text)}
+            placeholder="Steps to replicate:"
+            style={[styles.input, {flex: 3,}]}
+            value={this.state.replicationText}
+          />
         </View>
-      </View>
+
+          <TouchableOpacity
+            disabled={this.state.bugText && this.state.replicationText? false : true }
+            style={[styles.submitButton, this.state.bugText && this.state.replicationText? {backgroundColor: 'limegreen'} : {backgroundColor: 'red'} ]}
+            onPress={() => {
+              this.dbAdd(this.state.bugText, this.state.replicationText, this.state.date);
+              this.textInput1.clear();
+              this.textInput2.clear();
+            }}
+
+          >
+            <Text>Balls</Text>
+          </TouchableOpacity>
+
+        
+
+        {/* This is where bugs will be displayed */}
+        <ScrollView style={styles.listArea}>
+          <Items
+            ref={bugs => (this.bugs = bugs)}
+            db={db}
+            onPress={(id) => {
+              db.transaction(
+                (tx) => {
+                  tx.executeSql(
+                    "delete from bugs where id = ?",
+                    [id]
+                  )
+                },
+                (err) => console.log(err),
+                this.update
+              )
+            }
+            }
+          />
+        </ScrollView>
+      </Pressable>
     );
   }
 }
@@ -105,6 +209,31 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'right',
   },
+  bugInput: {
+    height: '20%',
+    width: '100%',
+  },
+  input: {
+    flex: 1,
+    borderColor: 'green',
+    borderRadius: 4,
+    borderWidth: 1,
+    height: 48,
+    marginHorizontal: 16,
+    marginTop: 16,
+    padding: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  submitButton: {
+    margin: 5,
+    marginTop: 16,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding:10,
+    alignItems: 'center',
+    width: '90%',
+  },
   content: {
     flex: 1,
     backgroundColor: '#fff',
@@ -112,5 +241,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: 'black',
     borderWidth: 1,
+  },
+  flexRow: {
+    flexDirection: 'row',
+  },
+  listArea: {
+
   },
 });
