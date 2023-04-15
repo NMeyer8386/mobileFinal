@@ -25,4 +25,4 @@ Upon saving, the entry will be displayed below and tell you the number of bugs y
 
 If you would like to delete a bug (which you definitely won't need to do because Star Citizen Bugs are forever), all you have to do is hold the entry.  
 
-*Disclaimer: This application does not actually report bugs to CIG or RSI.*
+*Disclaimer: This application does not actually report bugs to CIG or RSI nor does the app have any affiliation with either company.*
