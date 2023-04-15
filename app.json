@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "mobileFinal",
+    "name": "SC Bug Tracker",
     "slug": "mobileFinal",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/SC_Logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/sc_splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -15,11 +15,15 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.nathaniel.bugtracker",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
+      "package": "com.nathaniel.bugtracker",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/SC_Logo.png",
         "backgroundColor": "#ffffff"
       }
     },
