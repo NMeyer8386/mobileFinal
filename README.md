@@ -12,6 +12,6 @@ needed dependencies for the project.
 This is more or less just a notetaking app with a focus on bugs in a video game.  
 After downloading the app, you will be greeted with this screen upon opening.  
 
-![First Screen](/assets/IMG_2678.PNG)
+<img src='/assets/IMG_2678.PNG' width='50%' height='50%' alt='First Screen'/>
 
 *Disclaimer: This application does not actually report bugs to CIG or RSI. It is a personal application with no server elements*
