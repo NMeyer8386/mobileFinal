@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import Items from './components/Items';
+import * as SplashScreen from 'expo-splash-screen';
 
 /**
  * This detects the platform that the app is running on. Since web isn't compatible with SQLite,
@@ -106,6 +107,10 @@ export default class App extends Component {
   }
 
   render() {
+
+    SplashScreen.preventAutoHideAsync();
+    setTimeout(SplashScreen.hideAsync, 2000);
+
     return (
       <Pressable style={styles.container} onPress={Keyboard.dismiss}>
         <StatusBar style="auto" />
